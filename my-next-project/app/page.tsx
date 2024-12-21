@@ -1,10 +1,9 @@
-import styles from "./page.module.css";
-import Image from "next/image";
-import imgMv from "../public/img-mv.jpg";
+import styles from './page.module.css';
+import Image from 'next/image';
 
-import NewsList from "@/app/_components/NewsList";
-import ButtonLink from "@/app/_components/ButtonLink";
-import { News } from "@/app/_libs/microcms";
+import NewsList from '@/app/_components/NewsList';
+import ButtonLink from '@/app/_components/ButtonLink';
+import { News } from '@/app/_libs/microcms';
 
 const data: { contents: News[] } = {
   contents: [
@@ -45,21 +44,23 @@ export default function Home() {
       <section className={styles.top}>
         <div>
           <h1 className={styles.title}>テクノロジーの力で世界を変える</h1>
-          <p className={styles.description}>わたしたちは市場をリードしているグローバルテックカンパニーです。</p>
+          <p className={styles.description}>
+            私たちは市場をリードしているグローバルテックカンパニーです。
+          </p>
         </div>
         <Image
           className={styles.bgimg}
-          src={imgMv}
+          src="/img-mv.jpg"
           alt=""
-          //width={4000}    // automatically provided
-          //height={1200}   // automatically provided
+          width={4000}
+          height={1200}
         />
       </section>
       <section className={styles.news}>
         <h2 className={styles.newsTitle}>News</h2>
         <NewsList news={sliceData} />
         <div className={styles.newsLink}>
-          <ButtonLink href="/news">もっと見る</ButtonLink>
+          <ButtonLink href="/news">もっとみる</ButtonLink>
         </div>
       </section>
     </>

@@ -10,7 +10,6 @@
 }
 
 .title {
-  color: var(--color-text-main);
   font-size: 3rem;
   font-weight: bold;
   text-align: center;
@@ -18,7 +17,6 @@
 }
 
 .description {
-  color: var(--color-text-main);
   text-align: center;
 }
 
@@ -90,5 +88,12 @@
   .news {
     width: calc(100% - 32px);
     padding: 16px 24px;
+  }
+
+  .newsLink {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    margin-top: 16px;
   }
 }

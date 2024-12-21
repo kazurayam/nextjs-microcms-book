@@ -1,5 +1,7 @@
 :root {
-  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
   --color-text-main: #333;
   --color-text-sub: #999;
   --color-text-unpainted: #fff;
@@ -41,7 +43,7 @@ body {
     Meiryo,
     sans-serif;
   color: var(--color-text-main);
-  line-height: 1.0;
+  line-height: 1.8;
 }
 
 code {
