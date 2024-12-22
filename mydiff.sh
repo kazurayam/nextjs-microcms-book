@@ -8,6 +8,9 @@ function mydiff() {
     diff -u "$bookdir/$1" "$mydir/$1"
 }
 
+#mydiff "app/_components/Article/index.module.css"
+mydiff "app/_components/Article/index.tsx"
+
 #mydiff "app/_components/ButtonLink/index.module.css"
 #mydiff "app/_components/ButtonLink/index.tsx"
 #mydiff "app/_components/Category/index.module.css"
@@ -17,7 +20,7 @@ function mydiff() {
 #mydiff "app/_components/Footer/index.module.css"
 #mydiff "app/_components/Footer/index.tsx"
 ##mydiff "app/_components/Header/index.module.css"
-mydiff "app/_components/Header/index.tsx"
+##mydiff "app/_components/Header/index.tsx"
 
 ##mydiff "app/_components/Hero/index.module.css"
 ##mydiff "app/_components/Hero/index.tsx"
@@ -33,6 +36,10 @@ mydiff "app/_components/Header/index.tsx"
 #mydiff "app/members/layout.tsx"
 ##mydiff "app/members/page.module.css"
 ##mydiff "app/members/page.tsx"
+
+#mydiff "app/news/layout.tsx"
+#mydiff "app/news/page.module.tsx"
+#mydiff "app/news/page.tsx"
 
 ##mydiff "app/globals.css"
 ##mydiff "app/layout.tsx"
