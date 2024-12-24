@@ -4,7 +4,7 @@ import Pagination from "@/app/_components/Pagination";
 import SearchField from "@/app/_components/SearchField";
 import { NEWS_LIST_LIMIT } from "@/app/_constants";
 
-export const revalidate = 0;  // won't use cache
+export const revalidate = 60;  // the cache expires in 60 seconds
 
 export default async function Page() {
   const { contents: news, totalCount } = await getNewsList({

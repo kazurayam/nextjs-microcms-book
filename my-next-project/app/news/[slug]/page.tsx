@@ -13,7 +13,7 @@ type Props = {
   }
 };
 
-export const revalidate = 0;  // won't use cache
+export const revalidate = 60;  // the cache expires in 60 seconds
 
 export default async function Page({ params, searchParams }: Props) {
   const data = await getNewsDetail(params.slug, {
