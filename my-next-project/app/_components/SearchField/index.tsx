@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./index.module.css";
 import { Suspense } from "react";
-
+// section 7-4 検索機能をつけてみよう
 function SearchFieldComponent() {
   const router = useRouter();
   const searchParams = useSearchParams();

@@ -1,6 +1,8 @@
 import Sheet from '@/app/_components/Sheet';
 import Hero from '@/app/_components/Hero';
-
+/**
+ * section 6-1-1
+ */
 type Props = {
   children: React.ReactNode;
 };

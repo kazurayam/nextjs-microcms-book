@@ -3,7 +3,9 @@ import { getNewsDetail } from "@/app/_libs/microcms";
 import Article from "@/app/_components/Article";
 import ButtonLink from "@/app/_components/ButtonLink";
 import styles from "./page.module.css";
-
+/**
+ * section 6-2-1
+ */
 type Props = {
   params: {
     slug: string;
