@@ -9,7 +9,7 @@ function mydiff() {
 }
 
 #mydiff "app/_components/Article/index.module.css"
-mydiff "app/_components/Article/index.tsx"
+#mydiff "app/_components/Article/index.tsx"
 
 #mydiff "app/_components/ButtonLink/index.module.css"
 #mydiff "app/_components/ButtonLink/index.tsx"
@@ -37,7 +37,7 @@ mydiff "app/_components/Article/index.tsx"
 ##mydiff "app/members/page.module.css"
 ##mydiff "app/members/page.tsx"
 
-#mydiff "app/news/layout.tsx"
+mydiff "app/news/layout.tsx"
 #mydiff "app/news/page.module.tsx"
 #mydiff "app/news/page.tsx"
 
