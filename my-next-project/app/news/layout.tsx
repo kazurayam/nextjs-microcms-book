@@ -3,6 +3,10 @@ import Hero from '@/app/_components/Hero';
 /**
  * section 6-1-1
  */
+export const metadata = {
+  title: "ニュース",
+};
+
 type Props = {
   children: React.ReactNode;
 };
