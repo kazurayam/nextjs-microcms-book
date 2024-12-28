@@ -41,6 +41,7 @@ WebページのHTMLソースに書かれた `<script>` タグはReactによる�
 
 では、どうすればいい？
 
-お問い合わせ画面を実装するReactコンポーネントが描画されたタイミングでReactのフックを起動しよう。副作用フック `useEffect` 関数を使え。ブラウザ上でお問い合わせページのコンポーネントが開かれたタイミングを [`useEffect`](https://react.dev/reference/react/useEffect)関数で捉えてカスタムfunctionを起動しよう。カスタムfunctionが DOM APIを使って `<iframe>` を動的に挿入すればいい。
+お問い合わせ画面を実装するReactコンポーネントが描画されたタイミングでReactのフックを起動しよう。副作用フック `useEffect` 関数を使おう。ブラウザ上でお問い合わせページのコンポーネントが開かれたタイミングを [`useEffect`](https://react.dev/reference/react/useEffect)関数で捕捉して、カスタムfunctionを起動しよう。カスタムfunctionが DOM APIを使って `<iframe>` を動的に挿入すればいい。
 
 ## 説明
+
