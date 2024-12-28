@@ -79,6 +79,25 @@ NEXT_PUBLIC_FORMRUN_FORM_URL_PATH=@kazuXXXXXXXXX-XXXXXXXXXXXXXXXXXXX
 
 - https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#bundling-environment-variables-for-the-browser[Next.js | Bundling Environment Variables for the Browser]
 
+=== ContactFormコンポーネントを書き直す
+
+『https://www.shoeisha.co.jp/book/detail/9784798183664[Next.js＋ヘッドレスCMSではじめる！かんたんモダンWebサイト制作入門] 』の第９章に掲載されたContactFormコンポーネントを書き直した。
+
+ContactFormコンポーネントが描画されたとき `useEffect` 関数を利用してHTMLのDOMを動的に書き換えて `<iframe>` を挿入するようにした。
+
+- https://github.com/kazurayam/nextjs-microcms-book/blob/issue4/my-next-project/app/_components/ContactForm/index.tsx[app/_components/ContactForm/index.tsx]
+
+[source,typescript]
+----
+include::../my-next-project/app/_components/ContactForm/index.module.css[]
+----
+
+このコードについて留意点を述べる。
+
+- このコードはサーバ上ではなくブラウザ上で実行されなければならない。だから冒頭に `"use client"` を書いている。
+- フォームのURLのPath部分を環境変数から読み込んでいる。`<iframe src="....">` が参照するURLを組み立てるために。
+- ReactがContactFormコンポーネントを1回だけcallするとは限らない。わたしの環境では常に2回callしている。どうして2回callするのか、理由をわたしは知らない。理由はともかく、2回目以降のcallで `<iframe>` を挿入するのを避けるように `if` 文で制御している。
+
 === サーバーを起動せよ
 
 いつものように
@@ -99,9 +118,12 @@ $ npm run dev
 
 を開け。すると下記のような画面が表示されるはず。
 
+image::https://kazurayam.github.io/nextjs-microcms-book/images/contact-view.png[]
 
+ここに表示されているフォームはformrunによって作成されたものだ。
 
+F12キーでDeveloper Toolを開き、DOMツールを眺めてみよう。
 
+image::https://kazurayam.github.io/nextjs-microcms-book/images/contact-DOM.png[]
 
-
-
+確かに `<iframe>` 要素が挿入されていて、iframeのsrc属性がformrunによって公開されたURLを指していることを確認することができた。
