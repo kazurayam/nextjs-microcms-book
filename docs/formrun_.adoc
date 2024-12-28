@@ -93,8 +93,8 @@ include::../my-next-project/app/_components/ContactForm/index.tsx[]
 このコードについて留意点を述べる。
 
 - このコードはサーバ上ではなくブラウザ上で実行されなければならない。だから冒頭に `"use client"` を書いている。
-- フォームのURLのPath部分を環境変数から読み込んでいる。`<iframe src="....">` が参照するURLを組み立てるために。
-- ReactがContactFormコンポーネントを1回だけcallするとは限らない。わたしの環境では常に2回callしている。どうして2回callするのか、理由をわたしは知らない。理由はともかく、2回目以降のcallで `<iframe>` を挿入するのを避けるように `if` 文で制御している。
+- フォームのURLのPath部分を環境変数から読み込んでいる。`<iframe src="...">` が参照するURLを組み立てるために。
+- ReactがContactFormコンポーネントを1回だけcallするとは限らない。わたしの環境では常に2回callしている。どうして2回callするのか、理由をわたしは知らない。理由はともかく、2回目以降のcallで `<iframe>` を重複して挿入するのを避けるように `if` 文で制御している。
 
 ちなみに、本の第９章ではHubSpotを前提として問い合わせフォームを実装するために `app/_actions/contact.ts` などいくつかのファイルを追加している。formrunに合うようにそれら周辺のファイルも修正した。
 
@@ -127,3 +127,8 @@ F12キーでDeveloper Toolを開き、DOMツールを眺めてみよう。
 image::https://kazurayam.github.io/nextjs-microcms-book/images/contact-DOM.png[]
 
 確かに `<iframe>` 要素が挿入されていて、iframeのsrc属性がformrunによって公開されたURLを指していることを確認することができた。
+
+== 結論
+
+翔泳社刊 https://www.shoeisha.co.jp/book/detail/9784798183664[『Next.js＋ヘッドレスCMSではじめる！かんたんモダンWebサイト制作入門』]の第９章と同じようなお問い合わせフォームをフォーム作成ツール https://form.run/home[formrun] で実装することを試みて、成功した。けっこういい感じだ。
+
