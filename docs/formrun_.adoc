@@ -1,0 +1,59 @@
+= お問い合わせページを作ってみよう --- formrunで
+
+== 解決すべき問題
+
+翔泳社刊『https://www.shoeisha.co.jp/book/detail/9784798183664[Next.js＋ヘッドレスCMSではじめる！かんたんモダンWebサイト制作入門] 』を読んだ。
+
+image:https://www.seshop.com/static/images/product/26285/L.png[]
+
+第９章「お問い合わせページを作ってみよう」はReactとNext.jsで作ったアプリを CRMツール https://www.hubspot.jp/[HubSpot] のフォーム作成管理機能と連携させる方法を紹介している。しかし私はHubSpotが自分の手に余ると感じた。
+
+もっと軽い別のサービスを試したいと思った。ググったらmicroCMS社の松田承一さんの記事 https://blog.microcms.io/how-to-impl-inquiry-form/[『microCMSを使ったサイトでお問い合わせ機能を用意する方法』] を見つけたので読んだ。そこでひとつの候補として フォーム作成ツール https://form.run/home[formrun] があげられていた。やってみよう。
+
+React＋Next.jsのWebアプリの中にformrunで作成したwebフォームを埋め込みたいが、どうすればいいのか？
+
+== 解決方法
+
+formrun社による説明を読んだ。
+
+- https://faq.form.run/faq/share-forms#block-0221693739ff4d398c20782d4b688e23[iframeで埋め込む]
+
+formrunはひとつひとつのフォームに固有のURLを割り当てる。URLの形式はこうだ。
+
+[source,text]
+----
+https://form.run/@XXXXXXX-XXXXXXX-XXXXXXXXXXXXXXXXXXXX
+----
+
+以下の説明において、XXXXXXXの部分はあなたのフォームに割り当てられた具体的な文字列に置き換えてください。
+
+formrunの説明には、わたしのWebサイトページのHTMLの中に次のような断片を埋め込めばいい、と書いてあった。
+
+[source,html]
+----
+<script src="https://sdk.form.run/js/v2/embed.js"></script>
+<div
+  class="formrun-embed"
+  data-formrun-form="@XXXXXXX-XXXXXXX-XXXXXXXXXXXXXXXXXXXX"
+  data-formrun-redirect="false">
+</div>
+----
+
+このHTML断片が何を意図しているのか？ `<script src="https://sdk.form.run/js/v2/embed.js">` が実行されれば `embed.js`` が動いて 直後の `<div>` 要素の中に `<iframe>` 要素を挿入するだろう。 その `<iframe>` はformrunが提供するwebフォームのURLを参照するので、結果的にwebページの中にwebフォームが埋め込まれて表示されるだろう。
+
+
+わたしはこの説明を素朴に受けとめた。ContactFormコンポーネントのTypeScriptの中に上記のHTML断片をJSX構文で記述した。しかしこのベタなやり方は通用しなかった。なぜか？
+
+WebページのHTMLソースに書かれた `<script>` タグはReactによる制御の外側（*step outside of React*）にある。Reactで構築された「お問い合わせページ」がブラウザの上で表示されたとしても `<script>` は実行されない。`<script>` 要素のsrc属性が指すJavaScriptコードはダウンロードすらされない。これではダメだ。
+
+では、どうすればいい？
+
+お問い合わせ画面を実装するReactコンポーネントが描画されたタイミングでReactのフックを起動しよう。副作用フック `useEffect` 関数を使え。ブラウザ上でお問い合わせページのコンポーネントが開かれたタイミングを https://react.dev/reference/react/useEffect[`useEffect`]関数で捉えてカスタムfunctionを起動しよう。カスタムfunctionが DOM APIを使って `<iframe>` を動的に挿入すればいい。
+
+== 説明
+
+
+
+
+
+
