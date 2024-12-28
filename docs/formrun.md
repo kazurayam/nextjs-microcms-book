@@ -2,15 +2,13 @@
 
 ## 解決すべき問題
 
-翔泳社刊『https://www.shoeisha.co.jp/book/detail/9784798183664\[Next.js＋ヘッドレスCMSではじめる！かんたんモダンWebサイト制作入門\] 』を読んだ。
+翔泳社刊 [『Next.js＋ヘッドレスCMSではじめる！かんたんモダンWebサイト制作入門』](https://www.shoeisha.co.jp/book/detail/9784798183664)を読んだ。
 
 ![L](https://www.seshop.com/static/images/product/26285/L.png)
 
-第９章「お問い合わせページを作ってみよう」はReactとNext.jsで作ったアプリを CRMツール [HubSpot](https://www.hubspot.jp/) のフォーム作成管理機能と連携させる方法を紹介している。しかし私はHubSpotが自分の手に余ると感じた。
+第９章「お問い合わせページを作ってみよう」でReactとNext.jsで作ったアプリを CRMツール [HubSpot](https://www.hubspot.jp/) のフォーム作成管理機能と連携させる方法を紹介している。しかし私はHubSpotが自分の手に余ると感じた。もっと軽い別のサービスを試したいと思った。ググったらmicroCMS社の松田承一さんの記事 [『microCMSを使ったサイトでお問い合わせ機能を用意する方法』](https://blog.microcms.io/how-to-impl-inquiry-form/) を見つけたので読んだ。そこでひとつの候補として フォーム作成ツール [formrun](https://form.run/home) があげられていた。やってみよう。
 
-もっと軽い別のサービスを試したいと思った。ググったらmicroCMS社の松田承一さんの記事 [『microCMSを使ったサイトでお問い合わせ機能を用意する方法』](https://blog.microcms.io/how-to-impl-inquiry-form/) を見つけたので読んだ。そこでひとつの候補として フォーム作成ツール [formrun](https://form.run/home) があげられていた。やってみよう。
-
-React＋Next.jsのWebアプリの中にformrunで作成したwebフォームを埋め込みたいが、どうすればいいのか？
+第９章で作ったReactアプリのお問い合わせページにformrunで作成したwebフォームを埋め込みたいが、どうすればいいのか？
 
 ## 解決方法
 
@@ -55,23 +53,23 @@ WebページのHTMLソースに書かれた `<script>` タグはReactによる�
 
 ここでXXXの部分はあなたのフォームに割り当てられた具体的な文字列に置き換えてください。
 
-このURLのパス部分つまり `https://form.run/` に続く `@` を含む文字列を後ほど「問い合わせ」ページのHTMLの中に埋め込むことによって、あなたのサイトとformrunを連携させることができます。
+このURLのパス部分つまり `https://form.run/` に続く `@` を含む文字列を後ほど「問い合わせ」ページのHTMLの中に埋め込むことによって、あなたのサイトとformrunを連携させることができる。
 
 ### 環境変数を定義せよ
 
-プロジェクトのディレクトリに（すなわち `app` ディレクトリの隣に） `` .env.local ファイルを作れ。 `.env.local ファイルの中で環境変数 `NEXT_PUBLIC_FORMRUN_FORM_URL_PATH `` を定義せよ。
+プロジェクトのディレクトリに（すなわち `package.json` ファイルの隣に） `.env.local` ファイルを作れ。 `.env.local` ファイルの中で環境変数 `NEXT_PUBLIC_FORMRUN_FORM_URL_PATH` を定義しよう。
 
     NEXT_PUBLIC_FORMRUN_FORM_URL_PATH=@kazuXXXXXXXXX-XXXXXXXXXXXXXXXXXXX
 
 この環境変数の値として formrunが生成したあなたのフォームのURLのパス文字列を設定します。
 
-ひとつ注意点がある。この環境変数の名前を `NEXT_PUBLIC_` で始まるものにしなければならない。サーバー上に定義された環境変数をブラウザ上で動くJavaScriptが参照できるようにするためだ。名前を詳しくはNext.jsのドキュメントを参照のこと。
+ひとつ注意点がある。この環境変数の名前を `NEXT_PUBLIC_` で始まるものにしなければならない。サーバー上で定義された環境変数をブラウザ上で動くJavaScriptが参照できるようにするためだ。詳しくはNext.jsのドキュメントを参照のこと。
 
 -   [Next.js | Bundling Environment Variables for the Browser](https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#bundling-environment-variables-for-the-browser)
 
 ### ContactFormコンポーネントを書き直す
 
-『https://www.shoeisha.co.jp/book/detail/9784798183664\[Next.js＋ヘッドレスCMSではじめる！かんたんモダンWebサイト制作入門\] 』の第９章に掲載されたContactFormコンポーネントを書き直した。
+[『Next.js＋ヘッドレスCMSではじめる！かんたんモダンWebサイト制作入門 』](https://www.shoeisha.co.jp/book/detail/9784798183664) の第９章に掲載されたContactFormコンポーネントを書き直した。
 
 ContactFormコンポーネントが描画されたとき `useEffect` 関数を利用してHTMLのDOMを動的に書き換えて `<iframe>` を挿入するようにした。
 
@@ -79,9 +77,52 @@ ContactFormコンポーネントが描画されたとき `useEffect` 関数を�
 
 <!-- -->
 
-    .form {
-      max-width: 600px;
-      margin: 0 auto;
+    "use client";
+
+    import styles from "./index.module.css";
+    import { useEffect } from 'react';
+
+    export default function ContactForm() {
+      if (!process.env.NEXT_PUBLIC_FORMRUN_FORM_URL_PATH) {
+        throw new Error("NEXT_PUBLIC_FORMRUN_FORM_URL_PATH is required");
+      }
+      useEffect(() => {
+        console.log(`The ContactForm compnent was rendered`)
+        /* generate the following stuff in the DOM
+        <div id="embededForm">
+          <script src="https://sdk.form.run/js/v2/embed.js"></script>
+          <div
+            class="formrun-embed"
+            data-formrun-form=`${NEXT_PUBLIC_FORMRUN_FORM_URL_PATH}`
+            data-formrun-redirect="false">
+          </div>
+        </div>
+        */
+        const form = document.getElementById("embededForm");
+        const containerDiv = form?.querySelector('div'); // child div element
+        if (containerDiv === null) { // insert iframe only if it is not yet there
+          const script = document.createElement("script");
+          script.setAttribute("src", "https://sdk.form.run/js/v2/embed.js");
+          script.async = true;
+          form?.appendChild(script);
+
+          const embed = document.createElement("div");
+          embed.className = "formrun-embed";
+          embed.setAttribute("data-formrun-form", `${process.env.NEXT_PUBLIC_FORMRUN_FORM_URL_PATH}`);
+          embed.setAttribute("data-formrun-redirect", "false");
+          form?.appendChild(embed);
+
+          return () => {
+            form?.removeChild(script);
+          }
+        }
+      }, []);
+
+      return (
+        <>
+          <div id="embededForm" className={styles.form}></div>
+        </>
+      );
     }
 
 このコードについて留意点を述べる。
@@ -91,6 +132,8 @@ ContactFormコンポーネントが描画されたとき `useEffect` 関数を�
 -   フォームのURLのPath部分を環境変数から読み込んでいる。`<iframe src="…​.">` が参照するURLを組み立てるために。
 
 -   ReactがContactFormコンポーネントを1回だけcallするとは限らない。わたしの環境では常に2回callしている。どうして2回callするのか、理由をわたしは知らない。理由はともかく、2回目以降のcallで `<iframe>` を挿入するのを避けるように `if` 文で制御している。
+
+ちなみに、本の第９章ではHubSpotを前提として問い合わせフォームを実装するために `app/_actions/contact.ts` などいくつかのファイルを追加している。formrunに合うようにそれら周辺のファイルも修正した。
 
 ### サーバーを起動せよ
 
