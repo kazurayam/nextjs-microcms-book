@@ -11,7 +11,7 @@ export default function ContactForm() {
     console.log(`The ContactForm compnent was rendered`)
     /* generate the following stuff in the DOM
     <div id="embededForm">
-      <script src="https://sdk.form.run/js/v2/embed.js"></script>
+      <script src="https://sdk.form.run/js/v2/embed.js" async></script>
       <div
         class="formrun-embed"
         data-formrun-form=`${NEXT_PUBLIC_FORMRUN_FORM_URL_PATH}`

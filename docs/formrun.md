@@ -31,9 +31,9 @@ formrunの説明には、わたしのWebサイトページのHTMLの中に次の
       data-formrun-redirect="false">
     </div>
 
-このHTML断片が何を意図しているのか？ `<script src="https://sdk.form.run/js/v2/embed.js">` が実行されれば `` embed.js` `` が動いて 直後の `<div>` 要素の中に `<iframe>` 要素を挿入するだろう。 その `<iframe>` はformrunが提供するwebフォームのURLを参照するので、結果的にwebページの中にwebフォームが埋め込まれて表示されるだろう。
+このHTML断片が何を意図しているのか？ `<script src="https://sdk.form.run/js/v2/embed.js">` が実行されれば `embed.js` が動いて 直後の `<div>` 要素の中に `<iframe>` 要素を挿入するだろう。 その `<iframe>` はformrunが提供するwebフォームのURLを参照するので、結果的にwebページの中にwebフォームが埋め込まれて表示されるだろう。
 
-わたしはこの説明を素朴に受けとめた。ContactFormコンポーネントのTypeScriptの中に上記のHTML断片をJSX構文で記述した。しかしこのベタなやり方は通用しなかった。なぜか？
+はじめ、わたしはこの説明を素朴に受けとめた。ContactFormコンポーネントのTypeScriptの中に上記のHTML断片をJSX構文で記述した。しかしこのベタなやり方は通用しなかった。なぜか？
 
 WebページのHTMLソースに書かれた `<script>` タグはReactによる制御の外側（**step outside of React**）にある。Reactで構築された「お問い合わせページ」がブラウザの上で表示されたとしても `<script>` は実行されない。`<script>` 要素のsrc属性が指すJavaScriptコードはダウンロードすらされない。これではダメだ。
 
@@ -45,15 +45,15 @@ WebページのHTMLソースに書かれた `<script>` タグはReactによる�
 
 ### formrunでフォームを作れ
 
-[formrun](https://form.run/home) にあなたのアカウントを作ろう。ひとつ、問い合わせフォームを作成しよう。formrunとは何か、どう操作するのか、といった説明はここではしない。彼らの説明を読んで従えばいい。サンプルのテンプレートを選んでボタンを数回クリックすればマジで数分でフォームを作ることができる。
+[formrun](https://form.run/home) にあなたのアカウントを作ろう。ひとつ、問い合わせフォームを作成しよう。formrunとは何か、どう操作するのか、といった説明はここではしない。彼らの [説明](https://faq.form.run/faq/iframe?user_id=437639) を読んで従えばいい。サンプルのテンプレートを選んでボタンを数回クリックすればマジで数分でフォームを作ることができる。
 
 ちなみにformrunはひとつひとつのフォームに固有のURLを割り当てる。形式はこんな感じ:
 
-`` https://form.run/@kazuXXX-XXXXXXX-XXXXXXXXXXXXXXXXXXXX` ``
+`https://form.run/@XXXXXXX-XXXXXXX-XXXXXXXXXXXXXXXXXXXX`
 
 ここでXXXの部分はあなたのフォームに割り当てられた具体的な文字列に置き換えてください。
 
-このURLのパス部分つまり `https://form.run/` に続く `@` を含む文字列を後ほど「問い合わせ」ページのHTMLの中に埋め込むことによって、あなたのサイトとformrunを連携させることができる。
+このURLのパス部分つまり `https://form.run/` に続く `@` を含む文字列を「問い合わせ」ページのHTMLの中に埋め込むことによって、あなたのサイトとformrunを連携させることができる。
 
 ### 環境変数を定義せよ
 
@@ -90,7 +90,7 @@ ContactFormコンポーネントが描画されたとき `useEffect` 関数を�
         console.log(`The ContactForm compnent was rendered`)
         /* generate the following stuff in the DOM
         <div id="embededForm">
-          <script src="https://sdk.form.run/js/v2/embed.js"></script>
+          <script src="https://sdk.form.run/js/v2/embed.js" async></script>
           <div
             class="formrun-embed"
             data-formrun-form=`${NEXT_PUBLIC_FORMRUN_FORM_URL_PATH}`
@@ -158,7 +158,7 @@ ContactFormコンポーネントが描画されたとき `useEffect` 関数を�
 
 ここに表示されているフォームはformrunによって作成されたものだ。
 
-F12キーでDeveloper Toolを開き、DOMツールを眺めてみよう。
+F12キーでDeveloper Toolを開きDOMツリーを眺めてみよう。
 
 <figure>
 <img src="https://kazurayam.github.io/nextjs-microcms-book/images/contact-DOM.png" alt="contact DOM" />
@@ -168,4 +168,4 @@ F12キーでDeveloper Toolを開き、DOMツールを眺めてみよう。
 
 ## 結論
 
-翔泳社刊 [『Next.js＋ヘッドレスCMSではじめる！かんたんモダンWebサイト制作入門』](https://www.shoeisha.co.jp/book/detail/9784798183664)の第９章と同じようなお問い合わせフォームをフォーム作成ツール [formrun](https://form.run/home) で実装することを試みて、成功した。けっこういい感じだ。
+翔泳社刊 [『Next.js＋ヘッドレスCMSではじめる！かんたんモダンWebサイト制作入門』](https://www.shoeisha.co.jp/book/detail/9784798183664)の第９章と同じようなお問い合わせフォームをフォーム作成ツール [formrun](https://form.run/home) で実装することを試みて成功した。Next.js＋microCMS＋formrunの楽チンさは圧倒的だ。
